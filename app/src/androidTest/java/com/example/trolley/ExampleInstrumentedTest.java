@@ -49,6 +49,6 @@ public class ExampleInstrumentedTest {
     @Test
     public void fetchItemTest() {
         Fetch fetch = new Fetch();
-        fetch.fetchItem(6969);
+        fetch.newFetchItem("apples");
     }
 }
