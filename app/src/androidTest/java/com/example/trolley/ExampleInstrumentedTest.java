@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -29,15 +30,15 @@ public class ExampleInstrumentedTest {
         assertEquals("com.example.trolley", appContext.getPackageName());
     }
 
-    @Test
-    public void testFetch() {
-        Fetch fetch = new Fetch();
-        Item apples = new Item("apples", 116969, 20.00);
-        ArrayList<Item> list = new ArrayList<>();
-        list.add(apples);
-        Log.println(1, "Item", apples.getName());
-        assertEquals(fetch.searchTerm("apples").get(0).getName(), apples.getName());
-    }
+//    @Test
+//    public void testFetch() {
+//        Fetch fetch = new Fetch();
+//        Item apples = new Item("apples", 116969, 20.00);
+//        ArrayList<Item> list = new ArrayList<>();
+//        list.add(apples);
+//        Log.println(1, "Item", apples.getName());
+//        assertEquals(fetch.searchTerm("apples").get(0).getName(), apples.getName());
+//    }
 
     @Test
     public void gitUserIdTest() {
@@ -49,6 +50,12 @@ public class ExampleInstrumentedTest {
     @Test
     public void fetchItemTest() {
         Fetch fetch = new Fetch();
-        fetch.newFetchItem("apples");
+        fetch.fetchItem("apples");
+    }
+
+    @Test
+    public void fetchWooliesItemByCode() {
+        Fetch fetch = new Fetch();
+        fetch.fetchWooliesItemByCode(205300);
     }
 }
