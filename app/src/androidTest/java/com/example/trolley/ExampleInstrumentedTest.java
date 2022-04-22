@@ -56,6 +56,7 @@ public class ExampleInstrumentedTest {
     @Test
     public void fetchWooliesItemByCode() {
         Fetch fetch = new Fetch();
-        fetch.fetchWooliesItemByCode(205300);
+        Item item = fetch.fetchWooliesItemByCode(205300);
+        assertEquals(item.getBarcode(), Long.parseLong("9316090023906"));
     }
 }

@@ -23,4 +23,15 @@ public class Item {
     public double getPrice() {
         return price;
     }
+
+
+    public void setName(String name) {
+        this.name = name;
+    }
+    public void setBarcode(long barcode) {
+        this.barcode = barcode;
+    }
+    public void setPrice(double price) {
+        this.price = price;
+    }
 }

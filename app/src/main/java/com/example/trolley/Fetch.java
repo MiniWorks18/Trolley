@@ -6,6 +6,8 @@ import com.android.volley.toolbox.HttpResponse;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -69,12 +71,13 @@ public class Fetch {
         try {
             okhttp3.Response response = client.newCall(request).execute();
             Log.i("Response", response.body().string());
+
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public Item fetchWooliesItemByCode(double code) {
+    public Item fetchWooliesItemByCode(long code) {
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()
@@ -86,12 +89,19 @@ public class Fetch {
         Item item = new Item("test", 20, 30);
         try {
             okhttp3.Response response = client.newCall(request).execute();
-            Log.i("Response", response.body().string());
-            Gson gson = new Gson();
-            gson.toJson(response.body().string());
-//            TODO need to make this convert the response into JSON to then use in program
+            assert response.body() != null;
+            String textResponse = response.body().string();
+            Log.d("Response", textResponse);
 
-        } catch (IOException e) {
+            // Parse string response into item object
+            JSONObject obj = new JSONObject(textResponse);
+            long barcode = Long.parseLong(obj.getString("Barcode"));
+            String displayName = obj.getString("DisplayName");
+            double price = Double.parseDouble(obj.getString("Price"));
+            item.setBarcode(barcode);
+            item.setName(displayName);
+            item.setPrice(price);
+        } catch (IOException | JSONException e) {
             e.printStackTrace();
         }
         return item;
