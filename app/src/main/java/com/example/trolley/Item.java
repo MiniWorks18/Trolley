@@ -3,13 +3,22 @@ package com.example.trolley;
 public class Item {
     private String name;
     private long barcode;
-    private double price;
+    private double colesPrice;
+    private double woolworthsPrice;
+    private boolean atColes;
+    private boolean atWoolworths;
 
     // Constructor
-    public Item(String name, long barcode, double price) {
+    public Item(String name, long barcode) {
         this.name = name;
         this.barcode = barcode;
-        this.price = price;
+    }
+
+    public Item() {
+        this.name = "default name";
+        this.barcode = 6969;
+        this.colesPrice = 0;
+        this.woolworthsPrice = 0;
     }
 
     public String getName() {
@@ -20,8 +29,12 @@ public class Item {
         return barcode;
     }
 
-    public double getPrice() {
-        return price;
+    public double getColesPrice() {
+        return colesPrice;
+    }
+
+    public double getWoolworthsPrice() {
+        return woolworthsPrice;
     }
 
 
@@ -31,7 +44,10 @@ public class Item {
     public void setBarcode(long barcode) {
         this.barcode = barcode;
     }
-    public void setPrice(double price) {
-        this.price = price;
+    public void setColesPrice(double price) {
+        this.colesPrice = price;
+    }
+    public void setWoolworthsPrice(double price) {
+        this.woolworthsPrice = price;
     }
 }

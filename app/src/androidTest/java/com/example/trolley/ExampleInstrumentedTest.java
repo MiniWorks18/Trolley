@@ -59,4 +59,19 @@ public class ExampleInstrumentedTest {
         Item item = fetch.fetchWooliesItemByCode(205300);
         assertEquals(item.getBarcode(), Long.parseLong("9316090023906"));
     }
+
+    @Test
+    public void fetchColesItemByBarcode() {
+        Fetch fetch = new Fetch();
+        Item item = fetch.fetchColesItemByBarcode(Long.parseLong("9310645092133"));
+        assertEquals(item.getName(), "A4 Copy Paper");
+    }
+
+    @Test
+    public void searchWoolworths() {
+        Fetch fetch = new Fetch();
+        Item item = fetch.searchWoolworths("frozen");
+        assertEquals(item.getBarcode(), Long.parseLong("9300633285562"));
+    }
+
 }
