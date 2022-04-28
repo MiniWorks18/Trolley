@@ -1,20 +1,14 @@
 package com.example.trolley;
 
 import android.content.Context;
-import android.util.Log;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
-
-import com.example.trolley.Fetch;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
-
-import java.io.IOException;
-import java.util.ArrayList;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -48,12 +42,6 @@ public class ExampleInstrumentedTest {
     }
 
     @Test
-    public void fetchItemTest() {
-        Fetch fetch = new Fetch();
-        fetch.fetchItem("apples");
-    }
-
-    @Test
     public void fetchWooliesItemByCode() {
         Fetch fetch = new Fetch();
         Item item = fetch.fetchWooliesItemByCode(205300);
@@ -63,15 +51,22 @@ public class ExampleInstrumentedTest {
     @Test
     public void fetchColesItemByBarcode() {
         Fetch fetch = new Fetch();
-        Item item = fetch.fetchColesItemByBarcode(Long.parseLong("9310645092133"));
-        assertEquals(item.getName(), "A4 Copy Paper");
+        Item[] items = fetch.searchColes("9310645092133");
+        assertEquals(items[0].getName(), "A4 Copy Paper");
+    }
+
+    @Test
+    public void searchColes() {
+        Fetch fetch = new Fetch();
+        Item[] items = fetch.searchColes("fish");
+        assertEquals(items[0].getName(), "Fresh Tasmanian Salmon Portions Skin On");
     }
 
     @Test
     public void searchWoolworths() {
         Fetch fetch = new Fetch();
-        Item item = fetch.searchWoolworths("frozen");
-        assertEquals(item.getBarcode(), Long.parseLong("9300633285562"));
+        Item[] items = fetch.searchWoolworths("frozen");
+        assertEquals(items[0].getBarcode(), Long.parseLong("9300633285562"));
     }
 
 }

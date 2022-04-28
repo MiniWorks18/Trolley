@@ -9,9 +9,11 @@ public class Item {
     private boolean atWoolworths;
 
     // Constructor
-    public Item(String name, long barcode) {
+    public Item(String name) {
         this.name = name;
-        this.barcode = barcode;
+        this.barcode = 6969;
+        this.colesPrice = 0;
+        this.woolworthsPrice = 0;
     }
 
     public Item() {
