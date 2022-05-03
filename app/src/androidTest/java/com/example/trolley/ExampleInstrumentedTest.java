@@ -10,6 +10,8 @@ import org.junit.runner.RunWith;
 
 import static org.junit.Assert.*;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * Instrumented test, which will execute on an Android device.
  *
@@ -24,49 +26,61 @@ public class ExampleInstrumentedTest {
         assertEquals("com.example.trolley", appContext.getPackageName());
     }
 
-//    @Test
-//    public void testFetch() {
-//        Fetch fetch = new Fetch();
-//        Item apples = new Item("apples", 116969, 20.00);
-//        ArrayList<Item> list = new ArrayList<>();
-//        list.add(apples);
-//        Log.println(1, "Item", apples.getName());
-//        assertEquals(fetch.searchTerm("apples").get(0).getName(), apples.getName());
-//    }
-
-    @Test
-    public void gitUserIdTest() {
-        Fetch fetch = new Fetch();
-        GitUser user = fetch.gitUser();
-        assertEquals(user.getId(), 1022859);
-    }
-
     @Test
     public void fetchWooliesItemByCode() {
-        Fetch fetch = new Fetch();
-        Item item = fetch.fetchWooliesItemByCode(205300);
+        Utils utils = new Utils();
+        Item item = utils.fetchWooliesItemByCode(205300);
         assertEquals(item.getBarcode(), Long.parseLong("9316090023906"));
     }
 
     @Test
     public void fetchColesItemByBarcode() {
-        Fetch fetch = new Fetch();
-        Item[] items = fetch.searchColes("9310645092133");
+        Utils utils = new Utils();
+        Item[] items = utils.searchColes("9310645092133");
         assertEquals(items[0].getName(), "A4 Copy Paper");
     }
 
     @Test
     public void searchColes() {
-        Fetch fetch = new Fetch();
-        Item[] items = fetch.searchColes("fish");
+        Utils utils = new Utils();
+        Item[] items = utils.searchColes("fish");
         assertEquals(items[0].getName(), "Fresh Tasmanian Salmon Portions Skin On");
     }
 
     @Test
     public void searchWoolworths() {
-        Fetch fetch = new Fetch();
-        Item[] items = fetch.searchWoolworths("frozen");
+        Utils utils = new Utils();
+        Item[] items = utils.searchWoolworths("frozen");
+        assertNotNull(items[0]);
         assertEquals(items[0].getBarcode(), Long.parseLong("9300633285562"));
     }
+
+    @Test
+    public void matchWoolworthsWithColes() {
+        Utils utils = new Utils();
+        Item[] wooliesItems = utils.searchWoolworths("dove soap");
+        for (int i = 0; i < wooliesItems.length; i++) {
+            Item newItem = utils.searchColes(""+wooliesItems[i].getBarcode())[0];
+            if (newItem.getIsInStock()) {
+                wooliesItems[i].setColesPrice(newItem.getColesPrice());
+                wooliesItems[i].setAtColes(true);
+            }
+        }
+    }
+
+    // TODO Maybe see if this can actually work
+//    @Test
+//    public void searchThread() {
+//        Fetch fetch = new Fetch();
+//
+//        try {
+//            fetch.searchThread("frozen");
+//            TimeUnit.SECONDS.sleep(2);
+//        } catch (InterruptedException | RuntimeException e) {
+//            e.printStackTrace();
+//        }
+//
+//        assertNotEquals(MainActivity.searchedItems.length, 1);
+//    }
 
 }

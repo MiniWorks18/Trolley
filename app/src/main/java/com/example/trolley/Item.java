@@ -7,6 +7,7 @@ public class Item {
     private double woolworthsPrice;
     private boolean atColes;
     private boolean atWoolworths;
+    private boolean isInStock;
 
     // Constructor
     public Item(String name) {
@@ -14,6 +15,9 @@ public class Item {
         this.barcode = 6969;
         this.colesPrice = 0;
         this.woolworthsPrice = 0;
+        this.isInStock = true;
+        this.atWoolworths = false;
+        this.atColes = false;
     }
 
     public Item() {
@@ -21,22 +25,25 @@ public class Item {
         this.barcode = 6969;
         this.colesPrice = 0;
         this.woolworthsPrice = 0;
+        this.isInStock = true;
+        this.atWoolworths = false;
+        this.atColes = false;
     }
 
     public String getName() {
         return name;
     }
-
     public long getBarcode() {
         return barcode;
     }
-
     public double getColesPrice() {
         return colesPrice;
     }
-
     public double getWoolworthsPrice() {
         return woolworthsPrice;
+    }
+    public boolean getIsInStock() {
+        return isInStock;
     }
 
 
@@ -51,5 +58,14 @@ public class Item {
     }
     public void setWoolworthsPrice(double price) {
         this.woolworthsPrice = price;
+    }
+    public void setInStock(boolean isInStock) {
+        this.isInStock = isInStock;
+    }
+    public void setAtColes(boolean atColes) {
+        this.atColes = atColes;
+    }
+    public void setAtWoolworths(boolean atWoolworths) {
+        this.atWoolworths = atWoolworths;
     }
 }

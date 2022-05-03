@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Trolley</string>
+    <string name="woolworths_cookie">
+        "akaalb_woolworths.com.au=~op=www_woolworths_com_au_Zone" +
+                    "AandC:PROD-ZoneC|~id=ca7997d0f95fd2955be7c8ab2c06376c; "
+                    +"_abck=4D008D2225FDB4B0E808F320484544EB~-1~YAAQnd/3SC3zK0GAAQAAZbrVaQeey9"
+                    +"9sBa8WZGUAspcNpRvE0+bAeniSauCuYlbXm8R3IoQJzYJBTz7Anyc2KiNgn2K37LaLT59XX7"
+                    +"DcTK+n0jIbTlOWXRVmpuJVZT1OEhNYSBclM+VpBioAFGjtlZtTTUh9TaTaIxcS6OIiFFfiZxId"
+                    +"QbxFmHc3do71B+8t4SHLvKj1l/WqqxAPKT3Orees6pzBmT/40Dho9f9ZE96DIYrdLdh0LYxg5F"
+                    +"OlVz5KzQnoehKqkSbtwMKQLvFXFR8fOGqlWChffsUQ2bt1kP5zRhPjPLd4VNx0sESVk6Z7bf3z"
+                    +"yHuR8WHjEg6ZKeJonIocQjN8hmnLMgIshQuRAijmjIZRCvtKgCsbTQqSx9u/PziQixQHFjxOAk"
+                    +"hSztc=~-1~-1~-1"
+    </string>
 </resources>
