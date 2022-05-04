@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         searchedItems[0] = item;
         Fetch fetch = new Fetch();
 
-        fetch.searchThread("Frozen");
+        fetch.threadSearch("Frozen", true, true);
 //        items = new Item[1];
 //        items[0] = new Item("Corn chips");
     }
