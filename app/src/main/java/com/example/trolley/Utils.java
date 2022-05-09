@@ -19,6 +19,7 @@ import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -52,6 +53,9 @@ public class Utils {
 
                 items[i] = new Item((String) product.get("n"));
                 items[i].setColesPrice(Double.parseDouble((String) price.get("o")));
+                items[i].setColesImageURL((String) product.get("t"));
+                items[i].setColesCode((String) product.get("p"));
+                items[i].setAtColes(true);
             }
         } catch (IOException | JSONException e) {
             e.printStackTrace();
@@ -73,7 +77,7 @@ public class Utils {
 
     // Search Woolworths by term i.e. "apples" "fish"
     public Item[] searchWoolworths(String term) {
-        Item[] items;
+        ArrayList<Item> items;
 
         // Construct post request
         HttpPost request = new HttpPost("https://www.woolworths.com.au/apis/ui/Search/products");
@@ -106,25 +110,26 @@ public class Utils {
 
             // Process data and fetch item information
             JSONArray products = (JSONArray) data.get("Products");
-            items = new Item[products.length()];
+            items = new ArrayList<>();
 
             JSONObject product, productDetails;
             JSONArray productInfo;
 
             // Parse JSON into Items, avoiding when IsInStock = false
-            for (int i = 0; i < products.length(); i++) {
+            for (int i = 0, index = 0; i < products.length(); i++) {
                 product = (JSONObject) products.get(i);
                 productInfo = (JSONArray) product.get("Products");
                 productDetails = (JSONObject) productInfo.get(0);
 
-                items[i] = new Item(productDetails.getString("DisplayName"));
-                if (!productDetails.getBoolean("IsInStock")) {
-                    items[i].setInStock(false);
-                } else {
-                    items[i].setWoolworthsPrice(productDetails.getDouble("Price"));
-                    items[i].setBarcode(Long.parseLong(productDetails.getString("Barcode")));
-                    items[i].setAtWoolworths(true);
+
+                if (productDetails.getBoolean("IsInStock")) {
+                    items.add(new Item(productDetails.getString("DisplayName")));
+                    items.get(index).setWoolworthsPrice(productDetails.getDouble("Price"));
+                    items.get(index).setBarcode(Long.parseLong(productDetails.getString("Barcode")));
+                    items.get(index).setAtWoolworths(true);
+                    items.get(index).setWoolworthsImageURL(productDetails.getString("MediumImageFile"));
                     Log.i("Response", response.getEntity().getContent().toString());
+                    index++;
                 }
             }
 
@@ -132,7 +137,7 @@ public class Utils {
             e.printStackTrace();
             return new Item[0];
         }
-        return items;
+        return items.toArray(new Item[0]);
     }
 
     // Old method, may not use
@@ -164,5 +169,9 @@ public class Utils {
             e.printStackTrace();
         }
         return item;
+    }
+
+    public int getRandomNumber(int from, int to) {
+        return (int) ((Math.random() * (to - from)) + from);
     }
 }

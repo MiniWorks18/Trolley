@@ -37,7 +37,7 @@ public class ExampleInstrumentedTest {
     public void fetchColesItemByBarcode() {
         Utils utils = new Utils();
         Item[] items = utils.searchColes("9310645092133");
-        assertEquals(items[0].getName(), "A4 Copy Paper");
+        assertEquals(items[0].getName(), "Copy Paper A4");
     }
 
     @Test

@@ -4,15 +4,21 @@ import android.os.Handler;
 import android.os.Looper;
 import android.util.Log;
 
+import com.android.volley.toolbox.ImageLoader;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 public class Fetch extends MainActivity {
-    Item[] wooliesItems;
+    ArrayList<Item> wooliesItems;
     Item[] colesItems;
     Boolean wooliesProcessing = false;
     Boolean colesProcessing = false;
+    int returnCount = 0;
+    double waitPercentage = 0.3;
 
     // Create an interface to respond with the result after processing
     public interface OnProcessedListener {
@@ -36,7 +42,7 @@ public class Fetch extends MainActivity {
                     public void run(){
 
                         // Update the UI
-                        MainActivity.searchedItems = wooliesItems;
+                        MainActivity.searchedItems = wooliesItems.toArray(new Item[0]);
                         MainActivity.updateAdapter();
 
                         // Shutdown the thread
@@ -50,6 +56,7 @@ public class Fetch extends MainActivity {
             @Override
             public void run(){ // Perform background operation(s) and set the result(s)
                 // In new threads search coles and woolies
+                Utils utils = new Utils();
                 if (shouldSearchWoolies) {
                     threadSearchWoolies(term);
                     wooliesProcessing = true;
@@ -70,13 +77,55 @@ public class Fetch extends MainActivity {
 
                 // In new threads, search coles for every item found at woolies
                 if (shouldSearchColes) {
-                    for (int i = 0; i < wooliesItems.length; i++) {
-                        threadSearchColes(""+wooliesItems[i].getBarcode(), true, i);
+                    for (int i = 0; i < wooliesItems.size(); i++) {
+                        threadSearchColes(""+wooliesItems.get(i).getBarcode(), true, i);
                     }
                 }
 
-                /* TODO wait for the threads to return, then add items from colesItems to
-                *   wooliesItems that are not already in there */
+                // Collect Woolworths item images
+                for (Item wooliesItem : wooliesItems) {
+                    new ImageLoadTask(wooliesItem.getWoolworthsImageURL(), wooliesItem, false).execute();
+                }
+
+                // Wait for a portion of threads to return, then continue atfer 50 milliseconds
+                while (returnCount < wooliesItems.size()*waitPercentage) {
+                    try {
+                        TimeUnit.MILLISECONDS.sleep(100);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                // Add any items from coles that are not at woolworths
+                if (shouldSearchColes) {
+                    for (Item colesItem : colesItems) {
+                        boolean found = false;
+                        for (Item wooliesItem : wooliesItems) {
+                            if (wooliesItem.getColesCode().equals(colesItem.getColesCode())) {
+                                found = true;
+                                break;
+                            }
+                        }
+                        if (!found) {
+                            // Add to items
+                            wooliesItems.add(utils.getRandomNumber(0, wooliesItems.size()), colesItem);
+                        }
+                    }
+                }
+
+                // Collect Coles item images
+                for (Item wooliesItem : wooliesItems) {
+                    if (wooliesItem.getIsAtColes()) {
+                        new ImageLoadTask(wooliesItem.getColesImageURL(), wooliesItem, true).execute();
+                    }
+                }
+
+                try {
+                    TimeUnit.MILLISECONDS.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
 
                 // Use the interface to pass along the result
                 listener.onProcessed();
@@ -96,7 +145,7 @@ public class Fetch extends MainActivity {
             public void run(){ // Perform background operation(s) and set the result(s)
                 // Search woolies in a thread
                 Utils utils = new Utils();
-                wooliesItems = utils.searchWoolworths(term);
+                wooliesItems = new ArrayList<>(Arrays.asList(utils.searchWoolworths(term)));
                 wooliesProcessing = false;
 
                 // Shutdown the thread
@@ -122,14 +171,16 @@ public class Fetch extends MainActivity {
                     Item item = utils.searchColes(term)[0];
                     if (item != null) {
                         // Update searched items (wooliesItems) with coles information
-                        wooliesItems[index].setAtColes(true);
-                        wooliesItems[index].setColesPrice(item.getColesPrice());
+                        wooliesItems.get(index).setAtColes(true);
+                        wooliesItems.get(index).setColesPrice(item.getColesPrice());
+                        wooliesItems.get(index).setColesCode(item.getColesCode());
                     }
                 } else {
                     colesItems = utils.searchColes(term);
                 }
 
                 colesProcessing = false;
+                returnCount++;
 
                 // Shutdown the thread
                 mExecutor.shutdown();
