@@ -20,7 +20,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/relativeValue"
+            android:id="@+id/cupPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp"
@@ -51,11 +51,11 @@
             android:textColor="@color/item_text_color"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/bestPriceDollars2"
+            app:layout_constraintStart_toEndOf="@+id/dollarSign"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/bestPriceDollars2"
+            android:id="@+id/dollarSign"
             android:layout_width="0dp"
             android:layout_height="20dp"
             android:layout_marginStart="5dp"
@@ -76,7 +76,7 @@
             android:text="Amazing Chips"
             android:textAllCaps="false"
             android:textColor="@color/item_text_color"
-            app:layout_constraintBottom_toTopOf="@+id/relativeValue"
+            app:layout_constraintBottom_toTopOf="@+id/cupPrice"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/itemImage"
             app:layout_constraintTop_toBottomOf="@+id/bestPriceDollars"
@@ -86,7 +86,6 @@
             android:id="@+id/storeColor"
             android:layout_width="10dp"
             android:layout_height="wrap_content"
-            android:background="@drawable/layout_bg_store_indicator"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

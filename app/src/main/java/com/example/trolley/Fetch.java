@@ -19,6 +19,7 @@ public class Fetch extends MainActivity {
     Boolean colesProcessing = false;
     int returnCount = 0;
     double waitPercentage = 0.3;
+    String exclusiveColesBrands = "Coles";
 
     // Create an interface to respond with the result after processing
     public interface OnProcessedListener {
@@ -43,6 +44,14 @@ public class Fetch extends MainActivity {
 
                         // Update the UI
                         MainActivity.searchedItems = wooliesItems.toArray(new Item[0]);
+                        MainActivity.updateAdapter();
+
+                        try {
+                            TimeUnit.MILLISECONDS.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
                         MainActivity.updateAdapter();
 
                         // Shutdown the thread
@@ -99,16 +108,19 @@ public class Fetch extends MainActivity {
                 // Add any items from coles that are not at woolworths
                 if (shouldSearchColes) {
                     for (Item colesItem : colesItems) {
-                        boolean found = false;
-                        for (Item wooliesItem : wooliesItems) {
-                            if (wooliesItem.getColesCode().equals(colesItem.getColesCode())) {
-                                found = true;
-                                break;
+                        // Only allow specific brands to be included
+                        if (exclusiveColesBrands.contains(colesItem.getBrand())) {
+                            boolean found = false;
+                            for (Item wooliesItem : wooliesItems) {
+                                if (wooliesItem.getColesCode().equals(colesItem.getColesCode())) {
+                                    found = true;
+                                    break;
+                                }
                             }
-                        }
-                        if (!found) {
-                            // Add to items
-                            wooliesItems.add(utils.getRandomNumber(0, wooliesItems.size()), colesItem);
+                            if (!found) {
+                                // Add to items
+                                wooliesItems.add(utils.getRandomNumber(0, wooliesItems.size()), colesItem);
+                            }
                         }
                     }
                 }

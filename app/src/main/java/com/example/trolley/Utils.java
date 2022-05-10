@@ -28,7 +28,7 @@ public class Utils {
 
     public Item[] searchColes(String term) {
         // Start HTTP instance
-        HttpGet request = new HttpGet("https://shop.coles.com.au/online/COLRSSearchDisplay?storeId=20601&searchTerm="+term);
+        HttpGet request = new HttpGet("https://shop.coles.com.au/online/COLRSSearchDisplay?storeId=20601&searchTerm="+term.replace(" ", "%20"));
         CloseableHttpClient client = HttpClients.createDefault();
         Item[] items;
         try {
@@ -49,13 +49,23 @@ public class Utils {
 
             for (int i =0; i < products.length(); i++) {
                 JSONObject product = (JSONObject) products.get(i);
-                JSONObject price = (JSONObject) product.get("p1");
+                JSONObject prices = (JSONObject) product.get("p1");
 
                 items[i] = new Item((String) product.get("n"));
-                items[i].setColesPrice(Double.parseDouble((String) price.get("o")));
+                items[i].setColesPrice(Double.parseDouble((String) prices.get("o")));
+                try {
+                    items[i].setColesWasPrice(Double.parseDouble((String) prices.get("l4")));
+                    items[i].setColesHasCupPrice(true);
+                } catch (JSONException e) {
+                    items[i].setColesHasCupPrice(false);
+                }
+                items[i].setColesCupPrice((String) product.get("u2"));
                 items[i].setColesImageURL((String) product.get("t"));
                 items[i].setColesCode((String) product.get("p"));
+                items[i].setBrand((String) product.get("m"));
                 items[i].setAtColes(true);
+                items[i].setColesDone(true);
+                items[i].setWoolworthsDone(true);
             }
         } catch (IOException | JSONException e) {
             e.printStackTrace();
@@ -82,7 +92,7 @@ public class Utils {
         // Construct post request
         HttpPost request = new HttpPost("https://www.woolworths.com.au/apis/ui/Search/products");
         CloseableHttpClient client = HttpClients.createDefault();
-        String json = "{\"IsSpecial\":false,\"Location\":\"/shop/search/products?searchTerm="+term+"\",\"PageNumber\":1,\"PageSize\":24,\"SearchTerm\":\""+term+"\",\"SortType\":\"TraderRelevance\"}";
+        String json = "{\"IsSpecial\":false,\"Location\":\"/shop/search/products?searchTerm="+term+"\",\"PageNumber\":1,\"PageSize\":36,\"SearchTerm\":\""+term+"\",\"SortType\":\"TraderRelevance\"}";
 
         try {
             StringEntity entity = new StringEntity(json);
@@ -125,10 +135,14 @@ public class Utils {
                 if (productDetails.getBoolean("IsInStock")) {
                     items.add(new Item(productDetails.getString("DisplayName")));
                     items.get(index).setWoolworthsPrice(productDetails.getDouble("Price"));
+                    items.get(index).setWoolworthsWasPrice(productDetails.getDouble("WasPrice"));
+                    items.get(index).setWoolworthsHasCupPrice(productDetails.getBoolean("HasCupPrice"));
+                    items.get(index).setWoolworthsCupPrice(productDetails.getString("CupString"));
                     items.get(index).setBarcode(Long.parseLong(productDetails.getString("Barcode")));
                     items.get(index).setAtWoolworths(true);
                     items.get(index).setWoolworthsImageURL(productDetails.getString("MediumImageFile"));
                     Log.i("Response", response.getEntity().getContent().toString());
+                    items.get(index).setWoolworthsDone(true);
                     index++;
                 }
             }

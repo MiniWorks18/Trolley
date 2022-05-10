@@ -7,9 +7,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
+import java.util.concurrent.TimeUnit;
+
 public class MainActivity extends AppCompatActivity {
-    private Item item = new Item("steven");
-    public static Item[] searchedItems = new Item[1];
+//    private Item item = new Item("steven");
+    public static Item[] searchedItems = new Item[0];
 
     private static RecyclerView recyclerView;
     
@@ -37,12 +39,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void setItemData() {
-        searchedItems[0] = item;
         Fetch fetch = new Fetch();
 
-        fetch.threadSearch("Frozen", true, true);
-//        items = new Item[1];
-//        items[0] = new Item("Corn chips");
+        fetch.threadSearch("vegetables", true, true);
     }
 
 }
