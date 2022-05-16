@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.DarkActionBar">
+        <item name="colorPrimary">@color/coles_red</item>
+        <item name="colorPrimaryDark">@color/coles_red</item>
+    </style>
+</resources>

@@ -19,6 +19,7 @@ public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
         this.item = item;
         this.colesImage = colesImage;
         if (colesImage) {
+            //TODO a lot of coles URLs are turning up null
             this.url = "https://shop.coles.com.au"+url;
         } else {
             this.url = url;
@@ -27,17 +28,19 @@ public class ImageLoadTask extends AsyncTask<Void, Void, Bitmap> {
 
     @Override
     protected Bitmap doInBackground(Void... params) {
-        try {
-            URL urlConnection = new URL(url);
-            HttpURLConnection connection = (HttpURLConnection) urlConnection
-                    .openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            InputStream input = connection.getInputStream();
-            Bitmap myBitmap = BitmapFactory.decodeStream(input);
-            return myBitmap;
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (url != null) {
+            try {
+                URL urlConnection = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) urlConnection
+                        .openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                InputStream input = connection.getInputStream();
+                Bitmap myBitmap = BitmapFactory.decodeStream(input);
+                return myBitmap;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         return null;
     }

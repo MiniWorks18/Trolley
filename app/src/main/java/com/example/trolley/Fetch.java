@@ -2,9 +2,6 @@ package com.example.trolley;
 
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
-
-import com.android.volley.toolbox.ImageLoader;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,7 +41,7 @@ public class Fetch extends MainActivity {
 
                         // Update the UI
                         MainActivity.searchedItems = wooliesItems.toArray(new Item[0]);
-                        MainActivity.updateAdapter();
+                        HomeFragment.updateAdapter();
 
                         try {
                             TimeUnit.MILLISECONDS.sleep(1000);
@@ -52,7 +49,7 @@ public class Fetch extends MainActivity {
                             e.printStackTrace();
                         }
 
-                        MainActivity.updateAdapter();
+                        HomeFragment.updateAdapter();
 
                         // Shutdown the thread
                         mExecutor.shutdown();
