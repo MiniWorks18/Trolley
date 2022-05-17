@@ -1,8 +1,10 @@
 package com.example.trolley;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -11,23 +13,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.DecimalFormat;
 
-public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder> {
+public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
     private Item[] items;
 
-    public CustomAdapter(Item[] items){
+    public HomeAdapter(Item[] items){
         this.items = items;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class HomeHolder extends RecyclerView.ViewHolder {
         private final TextView name;
         private final ImageView image;
         private final View storeColor;
         private final TextView dollarPrice;
         private final TextView centPrice;
         private final TextView cupPrice;
+        private final Button btn;
 
 
-        public ViewHolder(View view) {
+        public HomeHolder(View view) {
             super(view);
             name = view.findViewById(R.id.itemName);
             image = view.findViewById(R.id.itemImage);
@@ -35,23 +38,26 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
             dollarPrice = view.findViewById(R.id.bestPriceDollars);
             centPrice = view.findViewById(R.id.bestPriceCents);
             cupPrice = view.findViewById(R.id.cupPrice);
+            btn = view.findViewById(R.id.addToListBtn);
         }
         public ImageView getImage() {return image;}
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public HomeHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_layout, parent, false);
-        return new ViewHolder(itemView);
+        return new HomeHolder(itemView);
     }
 
     // Bind item information into the dynamic list using the adaptor
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull HomeHolder holder, final int position) {
         // Item name
         holder.name.setText(items[position].getName());
+
+        holder.btn.setOnClickListener(addToList(items[position]));
 
         DecimalFormat df = new DecimalFormat("#.00");
         String priceString;
@@ -102,6 +108,22 @@ public class CustomAdapter extends RecyclerView.Adapter<CustomAdapter.ViewHolder
         int index = priceString.indexOf(".");
         holder.dollarPrice.setText(priceString.substring(0, index));
         holder.centPrice.setText(priceString.substring(index));
+
+    }
+
+    public View.OnClickListener addToList(Item item) {
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (item.isColesCheaper()) {
+                    item.setOnColesList(true);
+                } else {
+                    item.setOnWooliesList(true);
+                }
+                MainActivity.listItems.add(item);
+            }
+        };
+        return listener;
 
     }
 

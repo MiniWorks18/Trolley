@@ -72,12 +72,11 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
             android:text="Amazing Chips"
             android:textAllCaps="false"
             android:textColor="@color/item_text_color"
             app:layout_constraintBottom_toTopOf="@+id/cupPrice"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/addToListBtn"
             app:layout_constraintStart_toEndOf="@+id/itemImage"
             app:layout_constraintTop_toBottomOf="@+id/bestPriceDollars"
             app:layout_constraintVertical_bias="0.0" />
@@ -99,6 +98,17 @@
             app:layout_constraintStart_toEndOf="@+id/storeColor"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@color/white" />
+
+        <Button
+            android:id="@+id/addToListBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:text="Add to List"
+            android:textSize="8sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

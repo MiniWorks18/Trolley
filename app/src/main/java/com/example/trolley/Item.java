@@ -2,8 +2,6 @@ package com.example.trolley;
 
 import android.graphics.Bitmap;
 
-import java.text.DecimalFormat;
-
 public class Item {
     private String name;
     private long barcode;
@@ -26,6 +24,8 @@ public class Item {
     private String brand;
     private boolean colesDone;
     private boolean woolworthsDone;
+    private boolean onColesList;
+    private boolean onWooliesList;
 
     // Constructor
     public Item(String name) {
@@ -44,6 +44,8 @@ public class Item {
         this.colesCode = "0";
         this.colesDone = false;
         this.woolworthsDone = false;
+        this.onColesList = false;
+        this.onWooliesList = false;
     }
 
     public Item() {
@@ -62,6 +64,8 @@ public class Item {
         this.colesCode = "0";
         this.colesDone = false;
         this.woolworthsDone = false;
+        this.onColesList = false;
+        this.onWooliesList = false;
     }
 
     public String getName() {
@@ -234,5 +238,21 @@ public class Item {
 
     public void setColesDone(boolean colesDone) {
         this.colesDone = colesDone;
+    }
+
+    public boolean isOnColesList() {
+        return onColesList;
+    }
+
+    public void setOnColesList(boolean onColesList) {
+        this.onColesList = onColesList;
+    }
+
+    public boolean isOnWooliesList() {
+        return onWooliesList;
+    }
+
+    public void setOnWooliesList(boolean onWooliesList) {
+        this.onWooliesList = onWooliesList;
     }
 }
