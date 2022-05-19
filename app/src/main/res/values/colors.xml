@@ -8,5 +8,13 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="item_text_color">#FF000000</color>
-    <color name="coles_red">#d31a22</color>
+<!--    <color name="special_color">#ffdd00</color>-->
+<!--    <color name="coles_red">#d31a22</color>-->
+<!--    <color name="woolies_green">#398349</color>-->
+    <color name="special_color">#ffca3a</color>
+    <color name="coles_red">#ff595e</color>
+    <color name="woolies_green">#8ac926</color>
+    <color name="primary_color">#1982c4</color>
+    <color name="background_white">#F1F1F1</color>
+    <color name="background_grey">#454545</color>
 </resources>

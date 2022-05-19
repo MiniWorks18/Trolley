@@ -178,7 +178,7 @@ public class Fetch extends MainActivity {
                 // Either update woolies items, or fetch a list of coles items
                 if (comparing) {
                     Item item = utils.searchColes(term)[0];
-                    if (item != null) {
+                    if (item.getIsAtColes()) {
                         // Update searched items (wooliesItems) with coles information
                         wooliesItems.get(index).setAtColes(true);
                         wooliesItems.get(index).setColesPrice(item.getColesPrice());

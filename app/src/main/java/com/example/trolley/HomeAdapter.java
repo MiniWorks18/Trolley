@@ -1,5 +1,10 @@
 package com.example.trolley;
 
+
+import static java.security.AccessController.getContext;
+
+import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,15 +14,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.text.DecimalFormat;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
     private Item[] items;
+    private Context context;
 
-    public HomeAdapter(Item[] items){
+    public HomeAdapter(Item[] items, Context context){
         this.items = items;
+        this.context = context;
     }
 
     public class HomeHolder extends RecyclerView.ViewHolder {
@@ -28,6 +36,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
         private final TextView centPrice;
         private final TextView cupPrice;
         private final Button btn;
+        private final ConstraintLayout container;
 
 
         public HomeHolder(View view) {
@@ -39,6 +48,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
             centPrice = view.findViewById(R.id.bestPriceCents);
             cupPrice = view.findViewById(R.id.cupPrice);
             btn = view.findViewById(R.id.addToListBtn);
+            container = view.findViewById(R.id.itemContainer);
         }
         public ImageView getImage() {return image;}
     }
@@ -47,7 +57,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
     @Override
     public HomeHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_layout, parent, false);
+                .inflate(R.layout.item_home_layout, parent, false);
         return new HomeHolder(itemView);
     }
 
@@ -58,6 +68,10 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
         holder.name.setText(items[position].getName());
 
         holder.btn.setOnClickListener(addToList(items[position]));
+        // TODO Need to make this listener trigger the activity switch to ItemInfoScreen
+        holder.container.setOnClickListener(moreInfo(items[position]));
+
+
 
         DecimalFormat df = new DecimalFormat("#.00");
         String priceString;
@@ -117,14 +131,29 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
             public void onClick(View view) {
                 if (item.isColesCheaper()) {
                     item.setOnColesList(true);
+                    MainActivity.listItemsColes.add(item);
                 } else {
                     item.setOnWooliesList(true);
+                    MainActivity.listItemsWoolies.add(item);
                 }
-                MainActivity.listItems.add(item);
             }
         };
         return listener;
 
+    }
+
+
+    private View.OnClickListener moreInfo(Item item) {
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("Item", "Clicked");
+                Intent intent = new Intent(context, ItemInfoScreen.class);
+                MainActivity.moreInfoItem = item;
+                context.startActivity(intent);
+            }
+        };
+        return listener;
     }
 
     @Override

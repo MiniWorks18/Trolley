@@ -12,8 +12,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-
 public class ListFragment extends Fragment {
 //    Item[] items = new Item[];
 
@@ -39,7 +37,8 @@ public class ListFragment extends Fragment {
     }
 
     private void setAdapter() {
-        ListAdapter adapter = new ListAdapter(MainActivity.listItems.toArray(new Item[0]));
+        ListAdapter colesAdapter = new ListAdapter(MainActivity.listItemsColes.toArray(new Item[0]));
+        ListAdapter wooliesAdapter = new ListAdapter(MainActivity.listItemsWoolies.toArray(new Item[0]));
         RecyclerView.LayoutManager layoutManagerColes = new LinearLayoutManager(requireActivity().
                 getApplicationContext()) {
             @Override
@@ -59,8 +58,8 @@ public class ListFragment extends Fragment {
         recyclerWoolies.setLayoutManager(layoutManagerWoolies);
         recyclerColes.setItemAnimator(new DefaultItemAnimator());
         recyclerWoolies.setItemAnimator(new DefaultItemAnimator());
-        recyclerColes.setAdapter(adapter);
-        recyclerWoolies.setAdapter(adapter);
+        recyclerColes.setAdapter(colesAdapter);
+        recyclerWoolies.setAdapter(wooliesAdapter);
     }
 
     private void setLists() {

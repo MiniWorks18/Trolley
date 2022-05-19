@@ -10,10 +10,10 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class ListAdapter  extends RecyclerView.Adapter<ListAdapter.ListHolder> {
+public class FavouritesAdapter  extends RecyclerView.Adapter<FavouritesAdapter.ListHolder> {
     private Item[] items;
 
-    public ListAdapter(Item[] items) {
+    public FavouritesAdapter(Item[] items) {
         this.items = items;
     }
 
@@ -21,7 +21,7 @@ public class ListAdapter  extends RecyclerView.Adapter<ListAdapter.ListHolder> {
     @Override
     public ListHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_list_layout, parent, false);
+                .inflate(R.layout.item_favourites_layout, parent, false);
         return new ListHolder(itemView);
     }
 
