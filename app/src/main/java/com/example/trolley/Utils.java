@@ -26,6 +26,7 @@ import okhttp3.Request;
 
 public class Utils {
 
+    // TODO Bugg when searching barcode, coles suggests a similar barcode if it can't find the exact one. Search coles vs woolies: 93305174
     public Item[] searchColes(String term) {
         // Start HTTP instance
         HttpGet request = new HttpGet("https://shop.coles.com.au/online/COLRSSearchDisplay?storeId=20601&searchTerm="+term.replace(" ", "%20"));

@@ -58,7 +58,7 @@
             android:layout_marginTop="5dp"
             android:text="$2.20 was $3.00"
             android:textColor="#BCBCBC"
-            android:textSize="8sp"
+            android:textSize="10sp"
             app:layout_constraintStart_toStartOf="@+id/itemListName"
             app:layout_constraintTop_toBottomOf="@+id/itemListName" />
 

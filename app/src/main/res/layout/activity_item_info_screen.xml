@@ -68,7 +68,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="20dp"
-                    android:text=".20"
                     android:textColor="@color/coles_red"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -77,7 +76,6 @@
                     android:id="@+id/moreInfoDollarColes"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="$2"
                     android:textColor="@color/coles_red"
                     android:textSize="24sp"
                     app:layout_constraintBaseline_toBaselineOf="@+id/moreInfoPriceCentColes"
@@ -88,7 +86,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:text="Was $3.00"
                     android:textColor="@color/coles_red"
                     app:layout_constraintBaseline_toBaselineOf="@+id/moreInfoDollarColes"
                     app:layout_constraintEnd_toStartOf="@+id/moreInfoDollarColes" />
@@ -149,7 +146,6 @@
                     android:id="@+id/moreInfoDollarWoolies"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="$2"
                     android:textColor="@color/woolies_green"
                     android:textSize="24sp"
                     app:layout_constraintBaseline_toBaselineOf="@+id/moreInfoPriceCentWoolies"
@@ -160,7 +156,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginEnd="10dp"
-                    android:text="Was $3.00"
                     android:textColor="@color/woolies_green"
                     app:layout_constraintBaseline_toBaselineOf="@+id/moreInfoDollarWoolies"
                     app:layout_constraintEnd_toStartOf="@+id/moreInfoDollarWoolies" />
@@ -190,7 +185,7 @@
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/chips" />
                     <Button
-                        android:id="@+id/button"
+                        android:id="@+id/moreInfoFavouriteBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Favourite"

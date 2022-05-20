@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,7 +23,7 @@ public class ItemInfoScreen extends AppCompatActivity {
     }
 
     private void injectFields() {
-        DecimalFormat df = new DecimalFormat("#.00");
+        DecimalFormat df = new DecimalFormat("0.00");
         String priceString;
         int index;
         // Item name
@@ -34,10 +35,15 @@ public class ItemInfoScreen extends AppCompatActivity {
         // Item image
         ImageView image = findViewById(R.id.moreInfoImage);
 
+        // Favourite btn
+        Button favouriteBtn = findViewById(R.id.moreInfoFavouriteBtn);
+        favouriteBtn.setOnClickListener(favouriteBtnListener());
+
         // Coles and woolies containers
         View coles = findViewById(R.id.moreInfoColesContainer);
         View woolies = findViewById(R.id.moreInfoWooliesContainer);
 
+        // Fill coles info if at coles, else delete coles view
         if (item.getIsAtColes()) {
             // Coles price
             TextView colesPriceDollar = findViewById(R.id.moreInfoDollarColes);
@@ -49,7 +55,9 @@ public class ItemInfoScreen extends AppCompatActivity {
             index = priceString.indexOf(".");
             colesPriceDollar.setText("$"+ priceString.substring(0, index));
             colesPriceCent.setText(priceString.substring(index));
-            colesWasPrice.setText("Was " + item.getColesWasPrice());
+            if (item.isColesOnSpecial()) {
+                colesWasPrice.setText("Was $" + df.format(item.getColesWasPrice()));
+            }
 
             image.setImageBitmap(item.getColesImage());
 
@@ -58,6 +66,7 @@ public class ItemInfoScreen extends AppCompatActivity {
             ((ViewGroup) coles.getParent()).removeView(coles);
         }
 
+        // Fill woolies info if at woolies, else delete woolies view
         if (item.getIsAtWoolworths()) {
             // Woolies price
             TextView wooliesPriceDollar = findViewById(R.id.moreInfoDollarWoolies);
@@ -67,7 +76,9 @@ public class ItemInfoScreen extends AppCompatActivity {
             index = priceString.indexOf(".");
             wooliesPriceDollar.setText("$"+ priceString.substring(0, index));
             wooliesPriceCent.setText(priceString.substring(index));
-            wooliesWasPrice.setText("Was " + item.getWoolworthsWasPrice());
+            if (item.isWooliesOnSpecial()) {
+                wooliesWasPrice.setText("Was $" + df.format(item.getWoolworthsWasPrice()));
+            }
 
             image.setImageBitmap(item.getWooliesImage());
 
@@ -77,11 +88,23 @@ public class ItemInfoScreen extends AppCompatActivity {
         }
     }
 
+    private View.OnClickListener favouriteBtnListener() {
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                item.setFavourite(true);
+                MainActivity.favouriteItems.add(item);
+            }
+        };
+        return listener;
+    }
+
     private View.OnClickListener wooliesListListener() {
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity.listItemsWoolies.add(MainActivity.moreInfoItem);
+                item.setOnWooliesList(true);
+                MainActivity.listItemsWoolies.add(item);
             }
         };
         return listener;
@@ -91,7 +114,8 @@ public class ItemInfoScreen extends AppCompatActivity {
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity.listItemsColes.add(MainActivity.moreInfoItem);
+                item.setOnColesList(true);
+                MainActivity.listItemsColes.add(item);
             }
         };
         return listener;

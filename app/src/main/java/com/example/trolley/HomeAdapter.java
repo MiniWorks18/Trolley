@@ -20,8 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.text.DecimalFormat;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
-    private Item[] items;
-    private Context context;
+    private volatile Item[] items;
+    private volatile Context context;
 
     public HomeAdapter(Item[] items, Context context){
         this.items = items;
@@ -29,14 +29,15 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
     }
 
     public class HomeHolder extends RecyclerView.ViewHolder {
-        private final TextView name;
-        private final ImageView image;
-        private final View storeColor;
-        private final TextView dollarPrice;
-        private final TextView centPrice;
-        private final TextView cupPrice;
-        private final Button btn;
-        private final ConstraintLayout container;
+        private volatile TextView name;
+        private volatile ImageView image;
+        private volatile View storeColor;
+        private volatile TextView dollarPrice;
+        private volatile TextView centPrice;
+        private volatile TextView cupPrice;
+        private volatile Button btn;
+        private volatile ConstraintLayout container;
+        private volatile TextView wasPrice;
 
 
         public HomeHolder(View view) {
@@ -49,6 +50,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
             cupPrice = view.findViewById(R.id.cupPrice);
             btn = view.findViewById(R.id.addToListBtn);
             container = view.findViewById(R.id.itemContainer);
+            wasPrice = view.findViewById(R.id.homeWasPrice);
         }
         public ImageView getImage() {return image;}
     }
@@ -73,49 +75,63 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
 
 
 
-        DecimalFormat df = new DecimalFormat("#.00");
+        DecimalFormat df = new DecimalFormat("0.00");
         String priceString;
 
-        //TODO An attempt to stop -1 prices from leaking into the results. Need to investigate.
         while (!items[position].isColesDone() && !items[position].isWoolworthsDone()){
 
         }
-        if (items[position].isColesCheaper()) { // Should show coles version
+        Item item = items[position];
+        if (item.isColesCheaper()) { // Should show coles version
             // Image
-            holder.image.setImageBitmap(items[position].getColesImage());
+            holder.image.setImageBitmap(item.getColesImage());
 
             // Store color
             holder.storeColor.setBackgroundResource(R.drawable.layout_bg_store_indicator_coles);
 
+            // On special or not
+            if (item.isColesOnSpecial()) {
+                // TODO There are weird issues that cause coles items to be label on special even though this is commented out
+                // TODO There is also a strange behaviour where "was" prices are wrong and sometimes less than the listed price
+//                holder.container.setBackgroundResource(R.drawable.layout_bg_special);
+//                holder.wasPrice.setText("Was $"+df.format(item.getColesWasPrice()));
+            }
 
             // Price
-            priceString = df.format(items[position].getColesPrice());
+            priceString = df.format(item.getColesPrice());
 //            int index = priceString.indexOf(".");
 //            holder.dollarPrice.setText(priceString.substring(0, index));
 //            holder.centPrice.setText(priceString.substring(index));
 
             // Cup price
-            if (items[position].isWoolworthsHasCupPrice()) {
-                holder.cupPrice.setText(items[position].getWoolworthsCupPrice());
+            if (item.isWoolworthsHasCupPrice()) {
+                holder.cupPrice.setText(item.getWoolworthsCupPrice());
             }
         } else { // Should show woolworths version
             // Image
-            holder.image.setImageBitmap(items[position].getWooliesImage());
+            holder.image.setImageBitmap(item.getWooliesImage());
 
             // Store color
             holder.storeColor.setBackgroundResource(R.drawable.layout_bg_store_indicator_woolworths);
 
+            // On special or not
+            if (item.isWooliesOnSpecial()) {
+                holder.container.setBackgroundResource(R.drawable.layout_bg_special);
+                holder.wasPrice.setText("Was $"+df.format(item.getWoolworthsWasPrice()));
+            }
+
             // Price
-            priceString = df.format(items[position].getWoolworthsPrice());
+            priceString = df.format(item.getWoolworthsPrice());
 
             // Cup price
-            if (items[position].isWoolworthsHasCupPrice()) {
-                holder.cupPrice.setText(items[position].getWoolworthsCupPrice());
+            if (item.isWoolworthsHasCupPrice()) {
+                holder.cupPrice.setText(item.getWoolworthsCupPrice());
             }
         }
 
-        if (items[position].getIsAtWoolworths()) {
-            holder.image.setImageBitmap(items[position].getWooliesImage());
+        // Display woolies item for coles
+        if (item.getIsAtWoolworths()) {
+            holder.image.setImageBitmap(item.getWooliesImage());
         }
 
         // TODO Something is going wrong here, the prices are getting blanked out

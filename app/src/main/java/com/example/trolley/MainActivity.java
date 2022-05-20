@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
     // Initiate data collection
     private void setItemData() {
         Fetch fetch = new Fetch();
-        fetch.threadSearch("vegetables", true, true);
+        fetch.threadSearch("tuna", true, true);
     }
 
 }

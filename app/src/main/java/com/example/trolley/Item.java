@@ -3,29 +3,30 @@ package com.example.trolley;
 import android.graphics.Bitmap;
 
 public class Item {
-    private String name;
-    private long barcode;
-    private double colesPrice;
-    private double colesWasPrice;
-    private boolean colesHasCupPrice;
-    private String colesCupPrice;
-    private double woolworthsPrice;
-    private double woolworthsWasPrice;
-    private String woolworthsCupPrice;
-    private boolean woolworthsHasCupPrice;
-    private boolean atColes;
-    private boolean atWoolworths;
-    private boolean isInStock;
-    private String woolworthsImageURL;
-    private String colesImageURL;
-    private Bitmap colesImage;
-    private Bitmap wooliesImage;
-    private String colesCode;
-    private String brand;
-    private boolean colesDone;
-    private boolean woolworthsDone;
-    private boolean onColesList;
-    private boolean onWooliesList;
+    private volatile String name;
+    private volatile long barcode;
+    private volatile double colesPrice;
+    private volatile double colesWasPrice;
+    private volatile boolean colesHasCupPrice;
+    private volatile String colesCupPrice;
+    private volatile double woolworthsPrice;
+    private volatile double woolworthsWasPrice;
+    private volatile String woolworthsCupPrice;
+    private volatile boolean woolworthsHasCupPrice;
+    private volatile boolean atColes;
+    private volatile boolean atWoolworths;
+    private volatile boolean isInStock;
+    private volatile String woolworthsImageURL;
+    private volatile String colesImageURL;
+    private volatile Bitmap colesImage;
+    private volatile Bitmap wooliesImage;
+    private volatile String colesCode;
+    private volatile String brand;
+    private volatile boolean colesDone;
+    private volatile boolean woolworthsDone;
+    private volatile boolean onColesList;
+    private volatile boolean onWooliesList;
+    private volatile boolean favourite;
 
     // Constructor
     public Item(String name) {
@@ -46,6 +47,7 @@ public class Item {
         this.woolworthsDone = false;
         this.onColesList = false;
         this.onWooliesList = false;
+        this.favourite = false;
     }
 
     public Item() {
@@ -66,6 +68,7 @@ public class Item {
         this.woolworthsDone = false;
         this.onColesList = false;
         this.onWooliesList = false;
+        this.favourite = false;
     }
 
     public String getName() {
@@ -125,6 +128,7 @@ public class Item {
     }
 
     public boolean isColesCheaper() {
+        while (!colesDone && !woolworthsDone);
         return ((colesPrice < woolworthsPrice && colesPrice != -1) || woolworthsPrice == -1);
     }
 
@@ -255,4 +259,22 @@ public class Item {
     public void setOnWooliesList(boolean onWooliesList) {
         this.onWooliesList = onWooliesList;
     }
+
+    public boolean isFavourite() {
+        return favourite;
+    }
+
+    public void setFavourite(boolean favourite) {
+        this.favourite = favourite;
+    }
+
+    public boolean isColesOnSpecial() {
+        return (colesWasPrice != 0 && colesWasPrice > colesPrice);
+    }
+
+
+    public boolean isWooliesOnSpecial() {
+        return (woolworthsWasPrice != 0 && woolworthsWasPrice > woolworthsPrice);
+    }
+
 }

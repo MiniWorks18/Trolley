@@ -35,7 +35,7 @@ public class FavouritesFragment extends Fragment {
     }
 
     private void setAdapter() {
-        FavouritesAdapter adapter = new FavouritesAdapter(MainActivity.listItemsColes.toArray(new Item[0]));
+        FavouritesAdapter adapter = new FavouritesAdapter(MainActivity.favouriteItems.toArray(new Item[0]));
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(requireActivity()
                 .getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
