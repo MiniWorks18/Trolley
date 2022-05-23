@@ -61,11 +61,6 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         return false;
     }
 
-    public void moreInfoScreen(Item item) {
-        Intent switchActivityIntent = new Intent(this, ItemInfoScreen.class);
-        startActivity(switchActivityIntent);
-    }
-
     // Initiate data collection
     private void setItemData() {
         Fetch fetch = new Fetch();

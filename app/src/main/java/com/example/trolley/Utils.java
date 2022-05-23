@@ -44,30 +44,39 @@ public class Utils {
             JSONObject data = new JSONObject(stringData.toString());
 
 
+
             // Update each item information with JSONObject
             JSONArray products = (JSONArray) data.get("products");
+
+            // Check if coles is just suggesting an item when it can't find the real one
+            JSONObject searchInfo = new JSONObject(data.get("searchInfo").toString());
+            JSONArray suggestedterms = (JSONArray) searchInfo.get("suggestedterms");
+
             items = new Item[products.length()];
 
-            for (int i =0; i < products.length(); i++) {
-                JSONObject product = (JSONObject) products.get(i);
-                JSONObject prices = (JSONObject) product.get("p1");
 
-                items[i] = new Item((String) product.get("n"));
-                items[i].setColesPrice(Double.parseDouble((String) prices.get("o")));
-                try {
-                    items[i].setColesWasPrice(Double.parseDouble((String) prices.get("l4")));
-                    items[i].setColesHasCupPrice(true);
-                } catch (JSONException e) {
-                    items[i].setColesHasCupPrice(false);
+                for (int i = 0; i < products.length(); i++) {
+                    JSONObject product = (JSONObject) products.get(i);
+                    JSONObject prices = (JSONObject) product.get("p1");
+
+                    items[i] = new Item((String) product.get("n"));
+                    items[i].setColesPrice(Double.parseDouble((String) prices.get("o")));
+                    try {
+                        items[i].setColesWasPrice(Double.parseDouble((String) prices.get("l4")));
+                        items[i].setColesHasCupPrice(true);
+                    } catch (JSONException e) {
+                        items[i].setColesHasCupPrice(false);
+                    }
+                    items[i].setColesCupPrice((String) product.get("u2"));
+                    items[i].setColesImageURL((String) product.get("t"));
+                    items[i].setColesCode((String) product.get("p"));
+                    items[i].setBrand((String) product.get("m"));
+
+                    // Removes items that aren't found by coles (coles will suggest alternatives)
+                    items[i].setAtColes(suggestedterms.length() == 0);
+                    items[i].setColesDone(true);
+                    items[i].setWoolworthsDone(true);
                 }
-                items[i].setColesCupPrice((String) product.get("u2"));
-                items[i].setColesImageURL((String) product.get("t"));
-                items[i].setColesCode((String) product.get("p"));
-                items[i].setBrand((String) product.get("m"));
-                items[i].setAtColes(true);
-                items[i].setColesDone(true);
-                items[i].setWoolworthsDone(true);
-            }
         } catch (IOException | JSONException e) {
             e.printStackTrace();
             Item[] empty = new Item[1];

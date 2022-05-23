@@ -183,6 +183,7 @@ public class Fetch extends MainActivity {
                         wooliesItems.get(index).setAtColes(true);
                         wooliesItems.get(index).setColesPrice(item.getColesPrice());
                         wooliesItems.get(index).setColesCode(item.getColesCode());
+                        wooliesItems.get(index).setColesWasPrice(item.getColesWasPrice());
                     }
                 } else {
                     colesItems = utils.searchColes(term);

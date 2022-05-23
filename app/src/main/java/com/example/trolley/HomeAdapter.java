@@ -93,8 +93,11 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
             if (item.isColesOnSpecial()) {
                 // TODO There are weird issues that cause coles items to be label on special even though this is commented out
                 // TODO There is also a strange behaviour where "was" prices are wrong and sometimes less than the listed price
-//                holder.container.setBackgroundResource(R.drawable.layout_bg_special);
-//                holder.wasPrice.setText("Was $"+df.format(item.getColesWasPrice()));
+                holder.container.setBackgroundResource(R.drawable.layout_bg_special);
+                holder.wasPrice.setText("Was $"+df.format(item.getColesWasPrice()));
+            } else {
+                holder.container.setBackgroundResource(R.drawable.layout_bg_normal);
+                holder.wasPrice.setText("");
             }
 
             // Price
@@ -118,6 +121,9 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
             if (item.isWooliesOnSpecial()) {
                 holder.container.setBackgroundResource(R.drawable.layout_bg_special);
                 holder.wasPrice.setText("Was $"+df.format(item.getWoolworthsWasPrice()));
+            } else {
+                holder.container.setBackgroundResource(R.drawable.layout_bg_normal);
+                holder.wasPrice.setText("");
             }
 
             // Price
