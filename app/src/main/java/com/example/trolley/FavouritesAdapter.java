@@ -3,6 +3,7 @@ package com.example.trolley;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -32,31 +33,65 @@ public class FavouritesAdapter  extends RecyclerView.Adapter<FavouritesAdapter.L
     @Override
     public void onBindViewHolder(@NonNull ListHolder holder, int position) {
         Item item = items[position];
+        if (item.isOnWooliesList() || item.isOnColesList()) {
+            holder.addToListBtn.setBackgroundResource(R.drawable.ic_list_btn_tick);
+        }
+
+        holder.container.setOnClickListener(addToList(item));
+        holder.addToListBtn.setOnClickListener(addToList(item));
+
         if (item.isFavourite()) {
             if (item.isColesCheaper()) { // Show coles version
                 holder.name.setText(item.getName());
                 priceString = "$"+df.format(item.getColesPrice());
                 if (item.isColesOnSpecial()) {
                     priceString = priceString+" Was $"+df.format(item.getColesWasPrice());
+                    holder.container.setBackgroundResource(R.drawable.layout_bg_special_coles);
+                } else {
+                    holder.container.setBackgroundResource(R.drawable.layout_bg_list_store_indicator_coles);
                 }
                 holder.price.setText(priceString);
                 holder.image.setImageBitmap(item.getColesImage());
                 holder.storeColor.setBackgroundResource(R.drawable.layout_bg_border_coles);
-                holder.container.setBackgroundResource(R.drawable.layout_bg_list_store_indicator_coles);
             } else { // Show woolies version
                 holder.name.setText(item.getName());
 
                 priceString = "$"+df.format(item.getWoolworthsPrice());
                 if (item.isWooliesOnSpecial()) {
                     priceString = priceString+" Was $"+df.format(item.getWoolworthsWasPrice());
+                    holder.container.setBackgroundResource(R.drawable.layout_bg_special_woolies);
+                } else {
+                    holder.container.setBackgroundResource(R.drawable.layout_bg_list_store_indicator_woolies);
                 }
                 holder.price.setText(priceString);
                 holder.image.setImageBitmap(item.getWooliesImage());
                 holder.storeColor.setBackgroundResource(R.drawable.layout_bg_border_woolies);
-                holder.container.setBackgroundResource(R.drawable.layout_bg_list_store_indicator_woolies);
+            }
+
+            // Display woolies item for coles
+            if (item.getIsAtWoolworths()) {
+                holder.image.setImageBitmap(item.getWooliesImage());
             }
         }
 
+    }
+
+    private View.OnClickListener addToList(Item item) {
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                view.findViewById(R.id.favouritesAddToListBtn)
+                        .setBackgroundResource(R.drawable.ic_list_btn_tick);
+                if (item.isColesCheaper()) {
+                    item.setOnColesList(true);
+                    MainActivity.listItemsColes.add(item);
+                } else {
+                    item.setOnWooliesList(true);
+                    MainActivity.listItemsWoolies.add(item);
+                }
+            }
+        };
+        return listener;
     }
 
     @Override
@@ -70,6 +105,7 @@ public class FavouritesAdapter  extends RecyclerView.Adapter<FavouritesAdapter.L
         private final TextView price;
         private final View storeColor;
         private final ConstraintLayout container;
+        private final Button addToListBtn;
 
         public ListHolder(View view) {
             super(view);
@@ -78,6 +114,7 @@ public class FavouritesAdapter  extends RecyclerView.Adapter<FavouritesAdapter.L
             this.price = view.findViewById(R.id.itemListPrice);
             this.storeColor = view.findViewById(R.id.itemListBorder);
             this.container = view.findViewById(R.id.listItemContainer);
+            this.addToListBtn = view.findViewById(R.id.favouritesAddToListBtn);
         }
     }
 }

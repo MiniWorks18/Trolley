@@ -1,8 +1,6 @@
 package com.example.trolley;
 
 
-import static java.security.AccessController.getContext;
-
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
@@ -35,7 +33,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
         private volatile TextView dollarPrice;
         private volatile TextView centPrice;
         private volatile TextView cupPrice;
-        private volatile Button btn;
+        private volatile Button addToListBtn;
         private volatile ConstraintLayout container;
         private volatile TextView wasPrice;
 
@@ -48,7 +46,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
             dollarPrice = view.findViewById(R.id.bestPriceDollars);
             centPrice = view.findViewById(R.id.bestPriceCents);
             cupPrice = view.findViewById(R.id.cupPrice);
-            btn = view.findViewById(R.id.addToListBtn);
+            addToListBtn = view.findViewById(R.id.homeAddToListBtn);
             container = view.findViewById(R.id.itemContainer);
             wasPrice = view.findViewById(R.id.homeWasPrice);
         }
@@ -69,7 +67,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
         // Item name
         holder.name.setText(items[position].getName());
 
-        holder.btn.setOnClickListener(addToList(items[position]));
+        holder.addToListBtn.setOnClickListener(addToList(items[position]));
         // TODO Need to make this listener trigger the activity switch to ItemInfoScreen
         holder.container.setOnClickListener(moreInfo(items[position]));
 
@@ -91,8 +89,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
 
             // On special or not
             if (item.isColesOnSpecial()) {
-                // TODO There are weird issues that cause coles items to be label on special even though this is commented out
-                // TODO There is also a strange behaviour where "was" prices are wrong and sometimes less than the listed price
                 holder.container.setBackgroundResource(R.drawable.layout_bg_special);
                 holder.wasPrice.setText("Was $"+df.format(item.getColesWasPrice()));
             } else {
@@ -140,6 +136,12 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
             holder.image.setImageBitmap(item.getWooliesImage());
         }
 
+        if (item.isOnColesList() || item.isOnWooliesList()) {
+            holder.addToListBtn.setBackgroundResource(R.drawable.ic_list_btn_tick);
+        } else {
+            holder.addToListBtn.setBackgroundResource(R.drawable.ic_add_to_list);
+        }
+
         // TODO Something is going wrong here, the prices are getting blanked out
         int index = priceString.indexOf(".");
         holder.dollarPrice.setText(priceString.substring(0, index));
@@ -151,6 +153,8 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.HomeHolder> {
         View.OnClickListener listener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                view.findViewById(R.id.homeAddToListBtn)
+                        .setBackgroundResource(R.drawable.ic_list_btn_tick);
                 if (item.isColesCheaper()) {
                     item.setOnColesList(true);
                     MainActivity.listItemsColes.add(item);

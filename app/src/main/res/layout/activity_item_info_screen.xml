@@ -29,14 +29,14 @@
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/layout_bg_list_store_indicator_coles">
 
-                <TextView
+                <Button
                     android:id="@+id/colesAddToList"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginBottom="20dp"
-                    android:text="Add to list"
-                    android:textColor="@color/primary_color"
+                    android:background="@drawable/ic_add_to_list"
+                    android:textColor="@color/design_default_color_on_primary"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
@@ -55,10 +55,13 @@
 
                 <TextView
                     android:id="@+id/moreInfoNameColes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="24dp"
                     android:text="Amazing Fish"
                     android:textColor="#6E6E6E"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/colesAddToList"
                     app:layout_constraintStart_toStartOf="@+id/moreInfoColes"
                     app:layout_constraintTop_toBottomOf="@+id/moreInfoColes" />
 
@@ -98,13 +101,13 @@
                 android:layout_marginBottom="5dp"
                 android:background="@drawable/layout_bg_list_store_indicator_woolies">
 
-                <TextView
+                <Button
                     android:id="@+id/wooliesAddToList"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginBottom="20dp"
-                    android:text="Add to list"
+                    android:background="@drawable/ic_add_to_list"
                     android:textColor="@color/primary_color"
                     android:textStyle="bold"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -124,10 +127,13 @@
 
                 <TextView
                     android:id="@+id/moreInfoNameWoolies"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="24dp"
                     android:text="Amazing Fish"
                     android:textColor="#6E6E6E"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/wooliesAddToList"
                     app:layout_constraintStart_toStartOf="@+id/moreInfoWoolies"
                     app:layout_constraintTop_toBottomOf="@+id/moreInfoWoolies" />
 
@@ -137,7 +143,6 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="20dp"
-                    android:text=".20"
                     android:textColor="@color/woolies_green"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -163,7 +168,7 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:background="#FFFFFF">
 
@@ -184,11 +189,14 @@
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:srcCompat="@drawable/chips" />
+
                     <Button
                         android:id="@+id/moreInfoFavouriteBtn"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Favourite"
+                        android:layout_width="48dp"
+                        android:layout_height="48dp"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:background="@drawable/ic_favourite_hollow"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/moreInfoImage" />
 
@@ -211,8 +219,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:layout_marginTop="10dp"
-                    android:text="Description"
+                    android:text="\nDescription\n"
                     android:textColor="#6E6E6E"
+                    android:textSize="20sp"
                     app:layout_constraintStart_toStartOf="@id/spacer"
                     app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
 
@@ -231,11 +240,34 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="30dp"
                     android:layout_marginEnd="30dp"
-                    android:text="The taste of this product will blow your mind beyond what you thought possible. Enjoy the flavour of it's colourful features and the crackly eadges.\n\n Built with love and attention to detail. The origin of this product is one that cannot be put into words."
+                    android:text="\nThe taste of this product will blow your mind beyond what you thought possible. Enjoy the flavour of it's colourful features and the crackly eadges.\n\n Built with love and attention to detail. The origin of this product is one that cannot be put into words.\n\n\n"
                     android:textColor="#6E6E6E"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+                <View
+                    android:id="@+id/spacer2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="10dp"
+                    android:background="#EAEAEA"
+                    app:barrierDirection="top"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/moreInfoDescription" />
+
+                <TextView
+                    android:id="@+id/moreInfoDescription2"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="30dp"
+                    android:layout_marginEnd="30dp"
+                    android:text="Trolley - Infomation Display"
+                    android:textAlignment="center"
+                    android:textColor="#6E6E6E"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/spacer2" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

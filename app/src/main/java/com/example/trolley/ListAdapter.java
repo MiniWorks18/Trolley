@@ -4,6 +4,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,6 +33,7 @@ public class ListAdapter  extends RecyclerView.Adapter<ListAdapter.ListHolder> {
     @Override
     public void onBindViewHolder(@NonNull ListHolder holder, int position) {
         Item item = items[position];
+        holder.radioButton.setOnClickListener(tickedItemListner(item, position));
         if (item.isOnColesList()) { // Should buy from coles
             holder.name.setText(item.getName());
             priceString = "$"+df.format(item.getColesPrice());
@@ -55,6 +57,21 @@ public class ListAdapter  extends RecyclerView.Adapter<ListAdapter.ListHolder> {
             holder.container.setBackgroundResource(R.drawable.layout_bg_list_store_indicator_woolies);
         }
 
+        // Display woolies item for coles
+        if (item.getIsAtWoolworths()) {
+            holder.image.setImageBitmap(item.getWooliesImage());
+        }
+    }
+
+    private View.OnClickListener tickedItemListner(Item item, int position) {
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity.listItemsColes.remove(item);
+                MainActivity.listItemsWoolies.remove(item);
+            }
+        };
+        return listener;
     }
 
     @Override
@@ -68,6 +85,7 @@ public class ListAdapter  extends RecyclerView.Adapter<ListAdapter.ListHolder> {
         private final TextView price;
         private final View storeColor;
         private final ConstraintLayout container;
+        private final RadioButton radioButton;
 
         public ListHolder(View view) {
             super(view);
@@ -76,6 +94,7 @@ public class ListAdapter  extends RecyclerView.Adapter<ListAdapter.ListHolder> {
             this.price = view.findViewById(R.id.itemListPrice);
             this.storeColor = view.findViewById(R.id.itemListBorder);
             this.container = view.findViewById(R.id.listItemContainer);
+            this.radioButton = view.findViewById(R.id.itemListRadioBtn);
         }
     }
 }

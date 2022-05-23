@@ -21,12 +21,15 @@
 
         <TextView
             android:id="@+id/itemListName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="24dp"
             android:text="Amazing Chips"
             android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/itemListPrice"
+            app:layout_constraintEnd_toStartOf="@+id/itemListRadioBtn"
             app:layout_constraintStart_toEndOf="@+id/itemListImage"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,12 +58,12 @@
             android:id="@+id/itemListPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginBottom="4dp"
             android:text="$2.20 was $3.00"
             android:textColor="#BCBCBC"
             android:textSize="10sp"
-            app:layout_constraintStart_toStartOf="@+id/itemListName"
-            app:layout_constraintTop_toBottomOf="@+id/itemListName" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/itemListName" />
 
         <RadioButton
             android:id="@+id/itemListRadioBtn"

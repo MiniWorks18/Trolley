@@ -37,6 +37,9 @@ public class ItemInfoScreen extends AppCompatActivity {
 
         // Favourite btn
         Button favouriteBtn = findViewById(R.id.moreInfoFavouriteBtn);
+        if (MainActivity.favouriteItems.contains(item)) {
+            favouriteBtn.setBackgroundResource(R.drawable.ic_favourites_btn);
+        }
         favouriteBtn.setOnClickListener(favouriteBtnListener());
 
         // Coles and woolies containers
@@ -49,8 +52,13 @@ public class ItemInfoScreen extends AppCompatActivity {
             TextView colesPriceDollar = findViewById(R.id.moreInfoDollarColes);
             TextView colesPriceCent = findViewById(R.id.moreInfoPriceCentColes);
             TextView colesWasPrice = findViewById(R.id.moreInfoWasPriceColes);
+            Button addToList = findViewById(R.id.colesAddToList);
 
 
+            // Already added to list
+            if (item.isOnColesList()) {
+                addToList.setBackgroundResource(R.drawable.ic_list_btn_tick);
+            }
             priceString = df.format(item.getColesPrice());
             index = priceString.indexOf(".");
             colesPriceDollar.setText("$"+ priceString.substring(0, index));
@@ -62,6 +70,7 @@ public class ItemInfoScreen extends AppCompatActivity {
             image.setImageBitmap(item.getColesImage());
 
             coles.setOnClickListener(colesListListener());
+            addToList.setOnClickListener(colesListListener());
         } else {
             ((ViewGroup) coles.getParent()).removeView(coles);
         }
@@ -72,6 +81,12 @@ public class ItemInfoScreen extends AppCompatActivity {
             TextView wooliesPriceDollar = findViewById(R.id.moreInfoDollarWoolies);
             TextView wooliesPriceCent = findViewById(R.id.moreInfoPriceCentWoolies);
             TextView wooliesWasPrice = findViewById(R.id.moreInfoWasPriceWoolies);
+            Button addToList = findViewById(R.id.wooliesAddToList);
+
+            // Already added to list
+            if (item.isOnColesList()) {
+                addToList.setBackgroundResource(R.drawable.ic_list_btn_tick);
+            }
             priceString = df.format(item.getWoolworthsPrice());
             index = priceString.indexOf(".");
             wooliesPriceDollar.setText("$"+ priceString.substring(0, index));
@@ -83,6 +98,7 @@ public class ItemInfoScreen extends AppCompatActivity {
             image.setImageBitmap(item.getWooliesImage());
 
             woolies.setOnClickListener(wooliesListListener());
+            addToList.setOnClickListener(wooliesListListener());
         } else {
             ((ViewGroup) woolies.getParent()).removeView(woolies);
         }
@@ -94,6 +110,8 @@ public class ItemInfoScreen extends AppCompatActivity {
             public void onClick(View view) {
                 item.setFavourite(true);
                 MainActivity.favouriteItems.add(item);
+                findViewById(R.id.moreInfoFavouriteBtn)
+                        .setBackgroundResource(R.drawable.ic_favourites_btn);
             }
         };
         return listener;
@@ -105,6 +123,8 @@ public class ItemInfoScreen extends AppCompatActivity {
             public void onClick(View view) {
                 item.setOnWooliesList(true);
                 MainActivity.listItemsWoolies.add(item);
+                findViewById(R.id.wooliesAddToList)
+                        .setBackgroundResource(R.drawable.ic_list_btn_tick);
             }
         };
         return listener;
@@ -116,6 +136,8 @@ public class ItemInfoScreen extends AppCompatActivity {
             public void onClick(View view) {
                 item.setOnColesList(true);
                 MainActivity.listItemsColes.add(item);
+                findViewById(R.id.colesAddToList)
+                        .setBackgroundResource(R.drawable.ic_list_btn_tick);
             }
         };
         return listener;

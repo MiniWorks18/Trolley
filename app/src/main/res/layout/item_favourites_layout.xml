@@ -13,7 +13,7 @@
         android:layout_marginTop="5dp"
         android:layout_marginEnd="5dp"
         android:layout_marginBottom="5dp"
-        android:background="@drawable/layout_bg_list_store_indicator_coles"
+        android:background="@drawable/layout_bg_special_coles"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -21,53 +21,67 @@
 
         <TextView
             android:id="@+id/itemListName"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="24dp"
             android:text="Amazing Chips"
             android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@+id/itemListImage"
+            app:layout_constraintBottom_toTopOf="@+id/itemListPrice"
+            app:layout_constraintEnd_toStartOf="@+id/favouritesAddToListBtn"
+            app:layout_constraintStart_toEndOf="@+id/imageContainer"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/itemListImage"
-            android:layout_width="50dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/imageContainer"
+            android:layout_width="43dp"
             android:layout_height="0dp"
-            android:layout_marginStart="2dp"
+            android:layout_marginStart="1dp"
             android:layout_marginTop="1dp"
             android:layout_marginBottom="1dp"
+            android:background="@drawable/layout_bg_normal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/chips" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/itemListImage"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/chips" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
         <View
             android:id="@+id/itemListBorder"
             android:layout_width="1dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="-1dp"
             android:background="@drawable/layout_bg_border_coles"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/itemListImage"
+            app:layout_constraintStart_toEndOf="@+id/imageContainer"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/itemListPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginBottom="4dp"
             android:text="$2.20 was $3.00"
             android:textColor="#BCBCBC"
             android:textSize="10sp"
-            app:layout_constraintStart_toStartOf="@+id/itemListName"
-            app:layout_constraintTop_toBottomOf="@+id/itemListName" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/itemListName" />
 
         <Button
-            android:id="@+id/addToListBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/favouritesAddToListBtn"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
             android:layout_marginEnd="8dp"
-            android:text="Add to List"
+            android:background="@drawable/ic_add_to_list"
             android:textSize="8sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

@@ -1,7 +1,6 @@
 package com.example.trolley;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,7 +28,7 @@ public class HomeFragment extends Fragment {
         // Inflate the view
         View view = inflater.inflate(R.layout.home_fragment, container, false);
         recyclerView = view.findViewById(R.id.recyclerViewer);
-        addToListBtn = view.findViewById(R.id.addToListBtn);
+        addToListBtn = view.findViewById(R.id.favouritesAddToListBtn);
 
         setAdapter();
         return view;
